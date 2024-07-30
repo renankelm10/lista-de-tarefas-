@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
+    <style> 
+        
+        body {
+            font-family: Arial;
+            margin: 40px;
+            
+        }
+        input, button {
+            margin: 5px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 50;
+        }
+        listaA {
+            padding: 5px;
+            margin: 10px 0;
+            background-color: cornsilk;
+            border-radius: 5px;
+            display: table;
+            align-items: center;
+            color: black;
+        }
+        
+           
+    </style>
+</head>
+<body> 
+    <h1>Lista de Tarefas</h1>
+    <input type="text" id="novaTarefa" placeholder="Digite uma nova tarefa">
+    <button onclick="adicionarTarefa()">Adicionar Tarefa</button>
+    <ul id="listaDeTarefas"></ul>
+
+    <script>
+
+        var listaDeTarefas = [];
+
+        function adicionarTarefa() {
+
+            var inputTarefa = document.getElementById('novaTarefa');
+            var tarefa = inputTarefa.value.trim();
+
+            if (tarefa) {
+
+                listaDeTarefas.push(tarefa);
+                
+
+                inputTarefa.value = '';
+                
+                atualizarListaDeTarefas();
+            } else {
+
+                alert("Por favor, digite uma tarefa.");
+            }
+        }
+        function removerTarefa(alocado) {
+             (alocado >= 0 && alocado < listaDeTarefas.length)
+                listaDeTarefas.splice(alocado, 1);
+                
+                atualizarListaDeTarefas();
+             
+        }
+        function atualizarListaDeTarefas() {
+
+            var ul = document.getElementById('listaDeTarefas');
+            
+            ul.innerHTML = '';
+            
+            for (var a = 0; a < listaDeTarefas.length; a++) {
+
+                var listaA = document.createElement('listaA');
+                
+                listaA.textContent = listaDeTarefas[a];
+
+                listaA.setAttribute('data-alocado', a);
+ 
+                var botaoRe = document.createElement('button');
+                botaoRe.textContent = 'Remover';
+                botaoRe.className = 'botaoRe';
+                botaoRe.setAttribute('data-alocado', a);
+                
+                botaoRe.onclick = function() {
+                    var alocado = this.getAttribute('data-alocado');
+                    removerTarefa(alocado);
+                };
+                listaA.appendChild(botaoRe);
+                ul.appendChild(listaA);
+            }
+        }
+    </script>
+</body>
+</html>
